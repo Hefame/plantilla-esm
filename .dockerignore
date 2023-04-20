@@ -1,0 +1,8 @@
+.devcontainer
+.dockerignore
+.git*
+Dockerfile
+README.md
+node_modules
+build
+dev_rfc.log
