@@ -12,7 +12,7 @@ export const levels = {
 	debug: 5,
 	mongodb: 6,
 	axios: 7,
-	all: 1000
+	all: 1000,
 };
 
 // This method set the current severity based on
@@ -38,7 +38,6 @@ export const colors = {
 	debug: "italic white",
 	mongodb: "italic white",
 	axios: "italic white",
-	
 };
 
 winston.addColors(colors);
@@ -53,14 +52,13 @@ export const transports = [
 			winston.format.errors({ stack: true }),
 			winston.format.timestamp({ format: "HH:mm:ss.SSS" }),
 			colorize ? winston.format.colorize({ all: true }) : winston.format.uncolorize(),
-			winston.format.printf((info) => `${info.timestamp} [${info.level}] ${info.message}${info.stack ? "\r\n" + info.stack : ""}`)
+			winston.format.printf(
+				(info) =>
+					`${info.timestamp} ${info.level}\t${info.label ? `[${info.label}] ` : ""}${info.message}${
+						info.stack ? "\r\n" + info.stack : ""
+					}`
+			)
 		),
-	}),
-	// Allow to print all the error level messages inside the error.log file
-	new winston.transports.File({
-		filename: "error.log",
-		level: "error",
-		format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
 	}),
 	// Allow to print all the error message inside the all.log file
 	// (also the error log that are also printed inside the error.log)
@@ -77,5 +75,15 @@ const logger = winston.createLogger({
 	levels,
 	transports,
 });
+
+logger.generarSubnivel = (nivel, subnivel) => {
+	return (message) => {
+		logger.log({
+			level: nivel,
+			label: subnivel,
+			message,
+		});
+	};
+};
 
 export default logger;
