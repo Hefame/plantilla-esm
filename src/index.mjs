@@ -1,4 +1,4 @@
-process.MICRONAME = "APIGW-ARACNIDA";
+process.MICRONAME = "PLANTILLA-ESM";
 import expressApp from "./services/expressApp.mjs";
 import schedulerTemplate from "./services/schedulerTemplate.mjs";
 import suscripcionRabbit from "./services/suscripcionRabbit.mjs";
