@@ -1,4 +1,4 @@
-class HttpError extends Error {
+class HError extends Error {
 	error = {
 		codigo: 500,
 		mensaje: "",
@@ -26,12 +26,11 @@ class HttpError extends Error {
 	}
 
 	static from(error, codigoHttp) {
-		if (!error) return new HttpError(500, "Se recibió un valor nulo en la llamada");
-		if (error.constructor === HttpError) return error;
-		return new HttpError(codigoHttp || 500, error.message, error);
+		if (!error) return new HError(500, "Se recibió un valor nulo en la llamada");
+		if (error.constructor === HError) return error;
+		return new HError(codigoHttp || 500, error.message, error);
 	}
-
 
 }
 
-export default HttpError;
+export default HError;

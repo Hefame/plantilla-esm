@@ -1,5 +1,6 @@
 import { MongoClient, ObjectId } from "mongodb";
 import logger from "../utils/logger.mjs";
+import HError from "../model/HError.mjs";
 
 const DEFAULT_COLLECTION_OPTIONS = { writeConcern: { w: 1, wtimeout: 1000 } };
 /**
@@ -46,7 +47,7 @@ class MongoDBTemplate {
 		return MongoDBTemplate.#database;
 	}
 
-	static async getCollection(collectionName) {
+	static async getColeccion(collectionName) {
 		if (!MongoDBTemplate.#collections[collectionName]) {
 			log(`Obteniendo colección ${collectionName}`);
 			const COLLECTION_CONF = DEFAULT_COLLECTION_OPTIONS;
@@ -63,20 +64,20 @@ class MongoDBTemplate {
 	}
 
 
-	static async consultaOk() {
+	static async consultaMongo() {
 		const _inicio = Date.now();
+		
 		try {
 			
-			const coleccion = await MongoDBTemplate.getCollection("test");
+			const coleccion = await MongoDBTemplate.getColeccion("test");
 			let datos = await coleccion.findOne({});
 			const _fin = Date.now();
-			log(`Consulta de prueba - ${_fin - _inicio}ms - ${datos.length ?? 1} registros`);
-
+			log(`consultaMongo - ${_fin - _inicio}ms - ${datos.length ?? 1} registros`);
 			return datos;
 		} catch (error) {
 			const _fin = Date.now();
-			log(`Consulta de prueba - ${_fin - _inicio}ms - Error: ${error.message} `);
-			throw HttpError.from(error);
+			log(`consultaMongo - ${_fin - _inicio}ms - Error: ${error.message} `);
+			throw HError.from(error);
 		}
 	}
 

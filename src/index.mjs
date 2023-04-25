@@ -1,5 +1,7 @@
 process.MICRONAME = "APIGW-ARACNIDA";
 import expressApp from "./services/expressApp.mjs";
+import schedulerTemplate from "./services/schedulerTemplate.mjs";
+import suscripcionRabbit from "./services/suscripcionRabbit.mjs";
 import logger from "./utils/logger.mjs";
 
 const main = async () => {
@@ -17,6 +19,15 @@ const main = async () => {
 			},
 		},
 	});
+
+	
+	try {
+		await suscripcionRabbit();
+	} catch (error) {
+		logger.fatal("Error al suscribirse al servicio Rabbit:", error);
+	}
+
+	schedulerTemplate();
 };
 
 main().catch((error) => {

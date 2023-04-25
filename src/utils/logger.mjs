@@ -1,4 +1,6 @@
 import winston from "winston";
+import "winston-daily-rotate-file";
+import expressWinston from "express-winston";
 
 // Define your severity levels.
 // With them, You can create log files,
@@ -11,7 +13,10 @@ export const levels = {
 	http: 4,
 	debug: 5,
 	mongodb: 6,
-	axios: 7,
+	mariadb: 6,
+	rabbit: 6,
+	axios: 6,
+	sched: 6,
 	all: 1000,
 };
 
@@ -35,8 +40,11 @@ export const colors = {
 	warn: "yellow",
 	info: "green",
 	http: "magenta",
-	debug: "italic white",
+	debug: "italic blue",
 	mongodb: "italic white",
+	mariadb: "italic white",
+	rabbit: "italic white",
+	sched: "italic white",
 	axios: "italic white",
 };
 
@@ -60,13 +68,22 @@ export const transports = [
 			)
 		),
 	}),
-	// Allow to print all the error message inside the all.log file
-	// (also the error log that are also printed inside the error.log)
-	new winston.transports.File({
-		filename: "combined.log",
-		format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
-	}),
 ];
+
+
+if (process.env.LOG_DESTINATION_DIR) {
+	transports.push(
+		new winston.transports.DailyRotateFile({
+			dirname: process.env.LOG_DESTINATION_DIR,
+			filename: process.env.LOG_DESTINATION_FILENAME || `${process.MICRONAME}-%DATE%.log`,
+			format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+			datePattern: process.env.LOG_DESTINATION_DATE_PATTERN || 'YYYY-MM-DD',
+			zippedArchive: true,
+			maxSize: process.env.LOG_DESTINATION_MAX_SIZE || '10mb',
+			maxFiles: process.env.LOG_DESTINATION_MAX_AGE || '7d'
+		})
+	);
+}
 
 // Create the logger instance that has to be exported
 // and used to log messages.
@@ -85,5 +102,30 @@ logger.generarSubnivel = (nivel, subnivel) => {
 		});
 	};
 };
+
+export const winstonMiddleware = expressWinston.logger({
+	transports,
+	level: "http",
+	meta: true, // optional: control whether you want to log the meta data about the request (default to true)
+	expressFormat: true, // Use the default Express/morgan request formatting. Enabling this will override any msg if true. Will only output colors with colorize set to true
+	colorize: true, // Color the text and status code, using the Express/morgan color palette (text: gray, status: default green, 3XX cyan, 4XX yellow, 5XX red).
+	ignoreRoute: (req, res) => {
+		return req.url === "/health";
+	},
+	requestFilter: (req, propName) => {
+		if (propName === "headers") {
+			return Object.keys(req.headers).reduce(function (filteredHeaders, key) {
+				if (key === "authorization") {
+					filteredHeaders[key] = `*** (${req.headers[key].length} bytes) ***`;
+				} else {
+					filteredHeaders[key] = req.headers[key];
+				}
+				return filteredHeaders;
+			}, {});
+		} else {
+			return req[propName];
+		}
+	},
+});
 
 export default logger;
