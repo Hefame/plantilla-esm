@@ -20,7 +20,6 @@ const main = async () => {
 		},
 	});
 
-	
 	try {
 		await suscripcionRabbit();
 	} catch (error) {

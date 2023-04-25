@@ -16,7 +16,6 @@ const getEntorno = (nombreVariable) => {
 const log = logger.generarSubnivel("mongodb", NOMBRE.toLowerCase());
 
 class MongoDBTemplate {
-
 	static ObjectId = ObjectId;
 	static #connection;
 	static #database;
@@ -25,8 +24,8 @@ class MongoDBTemplate {
 	static async getBD() {
 		if (!MongoDBTemplate.#connection || !MongoDBTemplate.#database) {
 			const MONGO_CONF = {
-				url: getEntorno('URL'),
-				database: getEntorno('DB'),
+				url: getEntorno("URL"),
+				database: getEntorno("DB"),
 				connectionOptions: {
 					connectTimeoutMS: 5000,
 					serverSelectionTimeoutMS: 5000,
@@ -63,12 +62,10 @@ class MongoDBTemplate {
 		return new ObjectId();
 	}
 
-
 	static async consultaMongo() {
 		const _inicio = Date.now();
-		
+
 		try {
-			
 			const coleccion = await MongoDBTemplate.getColeccion("test");
 			let datos = await coleccion.findOne({});
 			const _fin = Date.now();
@@ -80,6 +77,5 @@ class MongoDBTemplate {
 			throw HError.from(error);
 		}
 	}
-
 }
 export default MongoDBTemplate;

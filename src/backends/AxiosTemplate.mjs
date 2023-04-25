@@ -2,7 +2,6 @@ import axios from "axios";
 import logger from "../utils/logger.mjs";
 import HError from "../model/HError.mjs";
 
-
 /**
  * El nombre se utiliza para determinar de manera estandar el nombre de las variables de entorno
  * esperadas.
@@ -43,7 +42,11 @@ class AxiosTemplate {
 
 			let response = await instance[method](url, body);
 			const _fin = Date.now();
-			log(`${method.toUpperCase()} ${url} - ${_fin - _inicio}ms - ${response.status} ${response.statusText} - ${response.headers?.["content-length"]}bytes`);
+			log(
+				`${method.toUpperCase()} ${url} - ${_fin - _inicio}ms - ${response.status} ${response.statusText} - ${
+					response.headers?.["content-length"]
+				}bytes`
+			);
 
 			if (response.status > 300) {
 				throw new HError(500, `La llamada AXIOS falló con código de error ${response.status}`);

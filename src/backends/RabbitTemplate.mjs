@@ -30,7 +30,6 @@ class RabbitTemplate {
 			RabbitTemplate.suscripciones.forEach((suscripcion) => {
 				RabbitTemplate.suscribir(suscripcion.exchange, suscripcion.topic, suscripcion.callback);
 			});
-
 		}
 		return RabbitTemplate.conexion;
 	}
@@ -45,7 +44,6 @@ class RabbitTemplate {
 	}
 
 	static async suscribir(exchange, topic, callback) {
-
 		let canal = await RabbitTemplate.#getCanal(exchange);
 		let cola = await canal.assertQueue("", { exclusive: true });
 		canal.bindQueue(cola.queue, exchange, topic);
@@ -67,12 +65,11 @@ class RabbitTemplate {
 			}
 		);
 
-        let registroSuscripcion = RabbitTemplate.suscripciones.find( s => s.exchange === exchange && s.topic === topic);
-        if (!registroSuscripcion) {
-            log(`Añadido al registro de suscripciones: ${exchange} - ${topic}`);
-            RabbitTemplate.suscripciones.push({ exchange, topic, callback });
-        }
-
+		let registroSuscripcion = RabbitTemplate.suscripciones.find((s) => s.exchange === exchange && s.topic === topic);
+		if (!registroSuscripcion) {
+			log(`Añadido al registro de suscripciones: ${exchange} - ${topic}`);
+			RabbitTemplate.suscripciones.push({ exchange, topic, callback });
+		}
 	}
 
 	static async publicar(exchange, topic, buffer) {

@@ -13,21 +13,21 @@ router.post("/", async (req, res) => {
 
 	try {
 		// Ejemplo de consulta MariaDB
-		//const respuestaMaria = await MariaDBTemplate.consultaMaria();
+		const respuestaMaria = await MariaDBTemplate.consultaMaria();
 
 		// Ejemplo de consulta MongoDB
-		//const respuestaMongo = await MongoDBTemplate.consultaMongo();
+		const respuestaMongo = await MongoDBTemplate.consultaMongo();
 
 		// Ejemplo consulta AXIOS
-		//const respuestaAxios = await AxiosTemplate.consultaAxios(20230410120000.0, 20230410120001.0);
+		const respuestaAxios = await AxiosTemplate.consultaAxios(20230410120000.0, 20230410120001.0);
 
+		// Ejemplo de publicación en Rabbit
 		await RabbitTemplate.publicar("test", "test.webo", Buffer.from(JSON.stringify({ ola: "caracola" })));
 
-		res.json({ stock: 1, body: req.body,/* mongo: respuestaMongo, axios: respuestaAxios, maria: respuestaMaria*/ });
+		res.json({ stock: 1, body: req.body, mongo: respuestaMongo, axios: respuestaAxios, maria: respuestaMaria });
 	} catch (error) {
-		
 		const herror = HError.from(error);
-		logger.error('Error durante la operación: ', error)
+		logger.error("Error durante la operación: ", error);
 		herror.express(res);
 	}
 });

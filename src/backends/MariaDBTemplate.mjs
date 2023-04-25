@@ -43,7 +43,7 @@ class MariaDBTemplate {
 
 		try {
 			conexion = await MariaDBTemplate.#getConexion();
-			const datos = await conexion.query("select * from agent_agents where arch = ?", ['amd64']);
+			const datos = await conexion.query("select * from agent_agents where arch = ?", ["amd64"]);
 			const _fin = Date.now();
 			log(`consultaMaria - ${_fin - _inicio}ms - ${datos.length ?? 1} registros`);
 			return datos;

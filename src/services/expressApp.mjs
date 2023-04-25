@@ -46,13 +46,10 @@ const expressApp = async (opciones) => {
 		// Carga de los controladores Express
 		expressRouter(app);
 
-
 		app.use(async (req, res) => {
 			const error = new HError(404, "No se encuentra la ruta solicitada");
 			return error.express(res);
 		});
-
-
 
 		const puerto = parseInt(process.env.EXPRESS_PUERTO, 10) || 3000;
 		let httpServer = app.listen(puerto);

@@ -70,17 +70,16 @@ export const transports = [
 	}),
 ];
 
-
 if (process.env.LOG_DESTINATION_DIR) {
 	transports.push(
 		new winston.transports.DailyRotateFile({
 			dirname: process.env.LOG_DESTINATION_DIR,
 			filename: process.env.LOG_DESTINATION_FILENAME || `${process.MICRONAME}-%DATE%.log`,
 			format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
-			datePattern: process.env.LOG_DESTINATION_DATE_PATTERN || 'YYYY-MM-DD',
+			datePattern: process.env.LOG_DESTINATION_DATE_PATTERN || "YYYY-MM-DD",
 			zippedArchive: true,
-			maxSize: process.env.LOG_DESTINATION_MAX_SIZE || '10mb',
-			maxFiles: process.env.LOG_DESTINATION_MAX_AGE || '7d'
+			maxSize: process.env.LOG_DESTINATION_MAX_SIZE || "10mb",
+			maxFiles: process.env.LOG_DESTINATION_MAX_AGE || "7d",
 		})
 	);
 }

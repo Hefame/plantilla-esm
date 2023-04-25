@@ -30,7 +30,6 @@ class HError extends Error {
 		if (error.constructor === HError) return error;
 		return new HError(codigoHttp || 500, error.message, error);
 	}
-
 }
 
 export default HError;

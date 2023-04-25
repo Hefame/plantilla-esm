@@ -13,7 +13,7 @@ const log = logger.generarSubnivel("sched", NOMBRE.toLowerCase());
 
 const operar = async () => {
 	// Aquí es donde va el código que se ejecutará periodicamente
-    logger.debug("El intervalo se ejecuta, si ¿o qué?");
+	logger.debug("El intervalo se ejecuta, si ¿o qué?");
 };
 
 const schedulerTemplate = async () => {
