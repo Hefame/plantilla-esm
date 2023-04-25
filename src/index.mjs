@@ -23,14 +23,14 @@ const main = async () => {
 	try {
 		await suscripcionRabbit();
 	} catch (error) {
-		logger.fatal("Error al suscribirse al servicio Rabbit:", error);
+		logger.fatal(`Error al suscribirse al servicio Rabbit: ${error.message}`);
 	}
 
 	schedulerTemplate();
 };
 
 main().catch((error) => {
-	logger.fatal("La aplicación a tenido un error irrecuperable:", error);
+	logger.fatal(`La aplicación a tenido un error irrecuperable: ${error.message}`);
 });
 
 export {};
