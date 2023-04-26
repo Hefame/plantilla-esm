@@ -22,7 +22,7 @@ class AxiosTemplate {
 				baseURL: getEntorno("URL"),
 				validateStatus: (status) => true,
 			});
-			log(`Creada instancia AXIOS para PSC contra ${getEntorno("URL")}`);
+			log(`Creada instancia AXIOS contra ${getEntorno("URL")}`);
 		}
 		return AxiosTemplate.#axios;
 	}
