@@ -9,14 +9,26 @@ const main = async () => {
 	await expressApp({
 		puerto: parseInt(process.env.EXPRESS_PORT, 10) || 3000,
 		parsers: {
-			raw: {
+			json: {
 				activo: true,
 				opciones: {
-					inflate: true,
 					limit: "1mb",
-					type: "*/*",
 				},
 			},
+//			raw: {
+//				activo: true,
+//				opciones: {
+//					inflate: true,
+//					limit: "1mb",
+//					type: "*/*",
+//				},
+//			},
+//			urlencoded: {
+//				activo: true,
+//				opciones: {
+//					extended: true,
+//				},
+//			}
 		},
 	});
 
