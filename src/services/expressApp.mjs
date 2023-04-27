@@ -14,7 +14,7 @@ const expressApp = async (opciones) => {
 		app.disable("x-powered-by");
 
 		if (opciones?.parsers?.json?.activo) {
-			app.use(bodyParser.json(opciones.parsers.json.opciones || { limit: "1mb" }));
+			app.use(bodyParser.json(opciones.parsers.json.opciones || { limit: process.env.EXPRESS_MAX_BODY_SIZE || "1mb" }));
 			logger.debug("Activado Express bodyparser JSON con opciones:");
 			logger.debug(opciones.parsers.json.opciones);
 		}
@@ -26,7 +26,7 @@ const expressApp = async (opciones) => {
 		}
 
 		if (opciones?.parsers?.raw?.activo) {
-			app.use(bodyParser.raw(opciones.parsers.raw.opciones || { inflate: true, limit: "1mb", type: "*/*" }));
+			app.use(bodyParser.raw(opciones.parsers.raw.opciones || { inflate: true, limit: process.env.EXPRESS_MAX_BODY_SIZE || "1mb", type: "*/*" }));
 			logger.debug("Activado Express bodyparser RAW con opciones:");
 			logger.debug(opciones.parsers.raw.opciones);
 		}
