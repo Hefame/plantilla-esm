@@ -19,7 +19,6 @@ export const levels = {
 	rabbit: 12,
 	axios: 13,
 	sched: 14,
-	snowflake: 15,
 	trace: 100,
 	all: 1000,
 };
@@ -47,7 +46,6 @@ export const colors = {
 	mariadb: "italic white",
 	rabbit: "italic white",
 	sched: "italic white",
-	snowflake: "italic white",
 	axios: "italic white",
 	trace: "italic cyan",
 };
