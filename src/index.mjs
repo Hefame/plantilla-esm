@@ -12,7 +12,7 @@ const main = async () => {
 			json: {
 				activo: true,
 				opciones: {
-					limit: "1mb",
+					limit: process.env.EXPRESS_MAX_BODY_SIZE || "1mb",
 				},
 			},
 //			raw: {
