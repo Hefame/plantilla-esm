@@ -52,7 +52,7 @@ const expressApp = async (opciones) => {
 			return error.express(res);
 		});
 
-		const puerto = parseInt(process.env.EXPRESS_PUERTO, 10) || 3000;
+		const puerto = parseInt(process.env.EXPRESS_PORT, 10) || 3000;
 		let httpServer = app.listen(puerto);
 
 		httpServer.on("error", (errorServidorHTTP) => {
