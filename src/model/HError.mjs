@@ -22,7 +22,9 @@ class HError extends Error {
 	}
 
 	express(res) {
-		res.status(this.codigo).json(this);
+		if (!res.headersSent) {
+			res.status(this.codigo).json(this);
+		}
 	}
 
 	static from(error, codigoHttp) {
