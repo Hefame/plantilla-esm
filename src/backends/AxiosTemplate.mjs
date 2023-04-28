@@ -42,15 +42,17 @@ class AxiosTemplate {
 
 			let response = await instance[method](url, body);
 			const _fin = Date.now();
+
+			if (response.status > 300) {
+				throw new HError(500, `La llamada AXIOS falló con código de error ${response.status}`);
+			}
+			
 			log(
 				`${method.toUpperCase()} ${url} - ${_fin - _inicio}ms - ${response.status} ${response.statusText} - ${
 					response.headers?.["content-length"]
 				}bytes`
 			);
-
-			if (response.status > 300) {
-				throw new HError(500, `La llamada AXIOS falló con código de error ${response.status}`);
-			}
+			
 			return response.data?.TELEGRAMS_TABLE;
 		} catch (error) {
 			const _fin = Date.now();
