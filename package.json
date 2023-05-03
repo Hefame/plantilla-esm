@@ -6,9 +6,12 @@
   "module": "src/index.mjs",
   "author": "alejandro.abad@hefame.es",
   "license": "MIT",
+  "dockerRegistry": "docker-registry.hefame.es",
   "scripts": {
     "start": "nodemon --watch src -r dotenv/config src/index.mjs",
-    "test": "mocha test/main.mjs"
+    "test": "mocha test/main.mjs",
+    "docker-build": "docker build --pull --rm -f \"Dockerfile\" -t %npm_package_dockerRegistry%/%npm_package_name%:%npm_package_version% \".\"",
+    "docker-push": "docker image push %npm_package_dockerRegistry%/%npm_package_name%:%npm_package_version%"
   },
   "dependencies": {
     "amqplib": "^0.10.3",
