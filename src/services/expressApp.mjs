@@ -61,7 +61,7 @@ const expressApp = async (opciones) => {
 		});
 		httpServer.on("listening", () => {
 			logger.info(`Servicio Express a la escucha en el puerto ${puerto}`);
-			resolve();
+			resolve(httpServer);
 		});
 	});
 };
